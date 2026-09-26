@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAB+ · CU ↔ Bitrate Calculator</title>
+<meta name="description" content="Two-way Capacity Units / bitrate calculator for DAB+ according to ETSI EN 300 401">
+<meta name="author" content="Graziano Melzi · OnAir Garage">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563EB">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DAB+ Calc">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 12a10 10 0 1 0 20 0 10 10 0 0 0-20 0"/>
+        <path d="M6 12a6 6 0 1 0 12 0 6 6 0 0 0-12 0"/>
+        <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+        <line x1="12" y1="2" x2="12" y2="6"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>DAB+ CU ↔ Bitrate <span class="chip" data-i18n="chip">Calculator</span></h1>
+      <p data-i18n="subtitle">Two-way Capacity Units / bitrate conversion according to ETSI EN 300 401</p>
+    </div>
+    <div class="toggle-group lang-switch" id="lang-switch" role="group" aria-label="Language">
+      <button type="button" class="toggle-btn" id="btn-it" lang="it">IT</button>
+      <button type="button" class="toggle-btn" id="btn-en" lang="en">EN</button>
+    </div>
+  </div>
+
+  <div class="controls-top">
+    <div class="ctrl">
+      <div class="toggle-group-label" data-i18n="profile">EEP profile</div>
+      <div class="toggle-group">
+        <button type="button" class="toggle-btn on" id="btn-a" aria-pressed="true">EEP-A</button>
+        <button type="button" class="toggle-btn"    id="btn-b" aria-pressed="false">EEP-B</button>
+      </div>
+    </div>
+    <div class="ctrl">
+      <div class="toggle-group-label" data-i18n="direction">Direction</div>
+      <div class="toggle-group">
+        <button type="button" class="toggle-btn on" id="btn-cu" aria-pressed="true" data-i18n="dirCu">CU → Bitrate</button>
+        <button type="button" class="toggle-btn"    id="btn-br" aria-pressed="false" data-i18n="dirBr">Bitrate → CU</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls-row">
+    <div class="ctrl">
+      <label for="prot-sel" data-i18n="protection">Protection level</label>
+      <select id="prot-sel"></select>
+    </div>
+    <div class="ctrl" id="input-cu-wrap">
+      <label for="cu-sel" data-i18n="cuAssigned">Assigned CU</label>
+      <select id="cu-sel"></select>
+    </div>
+    <div class="ctrl" id="input-br-wrap" hidden>
+      <label for="br-sel" data-i18n="brTarget">Target bitrate</label>
+      <select id="br-sel"></select>
+    </div>
+  </div>
+
+  <div class="result-card" aria-live="polite">
+    <div>
+      <div class="res-label" id="res-label">Resulting bitrate</div>
+      <div class="res-value">
+        <span class="res-big" id="res-val">—</span>
+        <span class="res-unit" id="res-unit">kbps</span>
+      </div>
+    </div>
+    <div class="res-meta" id="res-extra"></div>
+  </div>
+
+  <div class="table-label" data-i18n="tableLabel">Full table — selected protection level</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th data-i18n="thBitrate">Bitrate (kbps)</th><th data-i18n="thCu">Required CU</th><th data-i18n="thQuality">Quality (indicative)</th><th data-i18n="thUse">Typical use</th>
+      </tr></thead>
+      <tbody id="ref-body"></tbody>
+    </table>
+  </div>
+  <p class="table-note" data-i18n="note">CU values from ETSI EN 300 401 V2.1.1, tables 9 (EEP-A) and 10 (EEP-B). Quality and typical use are indicative only.</p>
+
+  <footer class="footer">
+    <span>DAB+ Calculator v1.1.0</span>
+    <span>© 2026 <a href="https://onairgarage.com/tools/dab-calculator/" rel="noopener">Graziano Melzi · OnAir Garage</a></span>
+    <span><a href="https://opensource.org/license/mit" rel="noopener license">MIT License</a></span>
+    <span><a href="mailto:hello@onairgarage.com">hello@onairgarage.com</a></span>
+  </footer>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "id": "com.onairgarage.dabcalculator",
+  "name": "DAB+ CU ↔ Bitrate Calculator",
+  "short_name": "DAB+ Calc",
+  "description": "Two-way Capacity Units / bitrate calculator for DAB+ according to ETSI EN 300 401",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0D1117",
+  "theme_color": "#2563EB",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
