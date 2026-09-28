@@ -33,6 +33,9 @@ const I18N = {
     chip: 'Calcolatore',
     subtitle: 'Conversione bidirezionale Capacity Units / Bitrate secondo ETSI EN 300 401',
     langLabel: 'Lingua',
+    install: 'Installa app',
+    iosHint: 'Tocca Condividi → Aggiungi alla schermata Home',
+    close: 'Chiudi',
     profile: 'Profilo EEP',
     direction: 'Direzione',
     dirCu: 'CU → Bitrate',
@@ -59,6 +62,9 @@ const I18N = {
     chip: 'Calculator',
     subtitle: 'Two-way Capacity Units / bitrate conversion according to ETSI EN 300 401',
     langLabel: 'Language',
+    install: 'Install app',
+    iosHint: 'Tap Share → Add to Home Screen',
+    close: 'Close',
     profile: 'EEP profile',
     direction: 'Direction',
     dirCu: 'CU → Bitrate',
@@ -107,6 +113,7 @@ function applyLang(){
   document.title = t('title');
   document.querySelector('meta[name="description"]').setAttribute('content', t('description'));
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
   $('lang-switch').setAttribute('aria-label', t('langLabel'));
   $('btn-it').classList.toggle('on', lang === 'it');
   $('btn-en').classList.toggle('on', lang === 'en');
@@ -221,6 +228,51 @@ $('prot-sel').addEventListener('change', onProtChange);
 $('cu-sel').addEventListener('change', render);
 $('br-sel').addEventListener('change', render);
 
+// --- Install button -------------------------------------------------------
+// Chrome, Edge, Android: native prompt via beforeinstallprompt.
+// iPhone/iPad: no such event, so the button shows a short "Add to Home Screen" hint.
+let deferredPrompt = null;
+const standaloneMQ = window.matchMedia('(display-mode: standalone)');
+const isStandalone = () => standaloneMQ.matches || navigator.standalone === true;
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+function updateInstallUI(){
+  const canInstall = !isStandalone() && (deferredPrompt !== null || isIOS);
+  $('install-btn').hidden = !canInstall;
+  if (!canInstall) $('ios-hint').hidden = true;
+  $('install-btn').setAttribute('aria-expanded', String(!$('ios-hint').hidden));
+}
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  updateInstallUI();
+});
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  updateInstallUI();
+});
+standaloneMQ.addEventListener('change', updateInstallUI);
+
+$('install-btn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    const prompt = deferredPrompt;
+    deferredPrompt = null;
+    prompt.prompt();
+    try { await prompt.userChoice; } catch (e) {}
+    updateInstallUI();
+  } else if (isIOS) {
+    $('ios-hint').hidden = !$('ios-hint').hidden;
+    updateInstallUI();
+  }
+});
+$('ios-hint-close').addEventListener('click', () => {
+  $('ios-hint').hidden = true;
+  updateInstallUI();
+  $('install-btn').focus();
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
@@ -228,4 +280,5 @@ if ('serviceWorker' in navigator) {
 }
 
 applyLang();
+updateInstallUI();
 buildProtSel(); buildInputSel(); render();

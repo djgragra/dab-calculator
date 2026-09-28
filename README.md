@@ -11,7 +11,7 @@ A small offline-capable web app (PWA) that converts between **Capacity Units (CU
 - EEP-B (protection levels 1-B … 4-B, bitrates in steps of 32 kbit/s, 32–192 kbit/s)
 - Full reference table for the selected protection level
 - English and Italian interface (follows the browser language, switchable)
-- Works offline and can be installed as an app (service worker + web app manifest)
+- Works offline after the first visit and can be installed as an app: an "Install app" button appears on Chrome, Edge and Android; on iPhone/iPad it shows how to use Share → Add to Home Screen
 - No dependencies, no tracking, no external requests
 
 ## Data source
@@ -30,7 +30,7 @@ The "quality" and "typical use" columns are indicative editorial guidance, not p
 The app is plain static files and runs from any folder (all paths are relative):
 
 ```
-index.html  app.css  app.js  sw.js  manifest.json  icons/
+index.html  app.css  app.js  sw.js  manifest.json  icons/  screenshots/
 ```
 
 Copy them to any static host. No inline scripts or styles are used, so it works with a strict Content-Security-Policy (`script-src 'self'; style-src 'self'`). Do not upload the `dev/` folder.
@@ -43,7 +43,7 @@ node dev/serve.js
 
 Then open http://localhost:7800/apps/dab-calculator/. The dev server mimics production: it serves the app from a subfolder and sends a strict CSP header. Any other static server works too (for example `python3 -m http.server`).
 
-When you change a cached file, bump `CACHE` in `sw.js` so installed copies update.
+When you change a cached file, bump `CACHE` in `sw.js` so installed copies update. Serve `sw.js` with `Cache-Control: no-cache` (or a short max-age) so browsers pick up new versions quickly.
 
 ## Author and license
 

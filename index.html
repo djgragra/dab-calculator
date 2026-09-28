@@ -33,10 +33,26 @@
       <h1>DAB+ CU ↔ Bitrate <span class="chip" data-i18n="chip">Calculator</span></h1>
       <p data-i18n="subtitle">Two-way Capacity Units / bitrate conversion according to ETSI EN 300 401</p>
     </div>
-    <div class="toggle-group lang-switch" id="lang-switch" role="group" aria-label="Language">
-      <button type="button" class="toggle-btn" id="btn-it" lang="it">IT</button>
-      <button type="button" class="toggle-btn" id="btn-en" lang="en">EN</button>
+    <div class="header-actions">
+      <button type="button" class="install-btn" id="install-btn" aria-controls="ios-hint" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v12"/><polyline points="7 10 12 15 17 10"/><path d="M5 21h14"/>
+        </svg>
+        <span data-i18n="install">Install app</span>
+      </button>
+      <div class="toggle-group lang-switch" id="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="toggle-btn" id="btn-it" lang="it">IT</button>
+        <button type="button" class="toggle-btn" id="btn-en" lang="en">EN</button>
+      </div>
     </div>
+  </div>
+
+  <div class="ios-hint" id="ios-hint" role="status" hidden>
+    <svg class="ios-hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 15V3"/><polyline points="8 7 12 3 16 7"/><path d="M5 11v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9"/>
+    </svg>
+    <span data-i18n="iosHint">Tap Share → Add to Home Screen</span>
+    <button type="button" class="ios-hint-close" id="ios-hint-close" data-i18n-aria="close" aria-label="Close">×</button>
   </div>
 
   <div class="controls-top">
@@ -94,7 +110,7 @@
   <p class="table-note" data-i18n="note">CU values from ETSI EN 300 401 V2.1.1, tables 9 (EEP-A) and 10 (EEP-B). Quality and typical use are indicative only.</p>
 
   <footer class="footer">
-    <span>DAB+ Calculator v1.1.0</span>
+    <span>DAB+ Calculator v1.2.0</span>
     <span>© 2026 <a href="https://onairgarage.com/tools/dab-calculator/" rel="noopener">Graziano Melzi · OnAir Garage</a></span>
     <span><a href="https://opensource.org/license/mit" rel="noopener license">MIT License</a></span>
     <span><a href="mailto:hello@onairgarage.com">hello@onairgarage.com</a></span>
