@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DAB+ · CU ↔ Bitrate Calculator</title>
 <meta name="description" content="Two-way Capacity Units / bitrate calculator for DAB+ according to ETSI EN 300 401">
@@ -40,9 +41,11 @@
         </svg>
         <span data-i18n="install">Install app</span>
       </button>
+      <button type="button" class="help-btn" id="help-btn" data-i18n="help">How it works</button>
       <div class="toggle-group lang-switch" id="lang-switch" role="group" aria-label="Language">
-        <button type="button" class="toggle-btn" id="btn-it" lang="it">IT</button>
         <button type="button" class="toggle-btn" id="btn-en" lang="en">EN</button>
+        <button type="button" class="toggle-btn" id="btn-it" lang="it">IT</button>
+        <button type="button" class="toggle-btn" id="btn-es" lang="es">ES</button>
       </div>
     </div>
   </div>
@@ -110,13 +113,41 @@
   <p class="table-note" data-i18n="note">CU values from ETSI EN 300 401 V2.1.1, tables 9 (EEP-A) and 10 (EEP-B). Quality and typical use are indicative only.</p>
 
   <footer class="footer">
-    <span>DAB+ Calculator v1.2.0</span>
+    <span>DAB+ Calculator <span id="ver">v2026.9.1</span></span>
     <span>© 2026 <a href="https://onairgarage.com/tools/dab-calculator/" rel="noopener">Graziano Melzi · OnAir Garage</a></span>
     <span><a href="https://opensource.org/license/mit" rel="noopener license">MIT License</a></span>
     <span><a href="mailto:hello@onairgarage.com">hello@onairgarage.com</a></span>
   </footer>
 
 </div>
+<dialog id="help-dlg" class="help" aria-labelledby="help-title">
+  <div class="help-head"><h2 id="help-title" data-i18n="helpTitle">How it works</h2>
+    <button type="button" class="help-close" id="help-close" data-i18n="close">Close</button></div>
+  <div class="help-body">
+    <h3 data-i18n="hWhat">What it does</h3><p data-i18n="pWhat"></p>
+    <h3 data-i18n="hFormulas">Formulas</h3>
+    <ul><li data-i18n="fA"></li><li data-i18n="fB"></li><li data-i18n="fC"></li></ul>
+    <h3 data-i18n="hRange">Values shown</h3><p data-i18n="pRange"></p>
+    <h3 data-i18n="hValid">Validation</h3>
+    <ul><li data-i18n="v1"></li><li data-i18n="v2"></li><li data-i18n="v3"></li></ul>
+    <h3 data-i18n="hSources">Sources</h3>
+    <ul>
+      <li><a href="https://www.etsi.org/deliver/etsi_en/300400_300499/300401/02.01.01_60/en_300401v020101p.pdf" target="_blank" rel="noopener">ETSI EN 300 401 V2.1.1</a> — <span data-i18n="src1"></span></li>
+      <li><a href="https://www.etsi.org/deliver/etsi_en/300400_300499/300401/02.02.01_20/en_300401v020201a.pdf" target="_blank" rel="noopener">Draft ETSI EN 300 401 V2.2.1</a> — <span data-i18n="src2"></span></li>
+    </ul>
+    <h3 id="help-install" data-i18n="hInstall">Install as an app</h3><p data-i18n="pInstall"></p>
+    <ul><li data-i18n="i1"></li><li data-i18n="i2"></li><li data-i18n="i3"></li><li data-i18n="i4"></li></ul>
+    <h3 data-i18n="hPrivacy">Language and privacy</h3><p data-i18n="pPrivacy"></p>
+  </div>
+</dialog>
+
+<div class="update" id="update-banner" role="status" hidden>
+  <span data-i18n="updateMsg">A new version is ready.</span>
+  <button type="button" class="update-btn" id="update-reload" data-i18n="updateReload">Reload</button>
+  <button type="button" class="update-btn ghost" id="update-later" data-i18n="updateLater">Later</button>
+</div>
+
+<script src="eep.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

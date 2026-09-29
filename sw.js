@@ -3,11 +3,12 @@
 // (e.g. https://onairgarage.com/apps/dab-calculator/).
 // Bump CACHE whenever a file in ASSETS changes, so installed copies update.
 const PREFIX = 'com.onairgarage.dabcalculator-';
-const CACHE = PREFIX + 'v1.2.0';
+const CACHE = PREFIX + 'v2026.9.1';
 const ASSETS = [
   './',
   'index.html',
   'app.css',
+  'eep.js',
   'app.js',
   'manifest.json',
   'icons/icon.svg',
@@ -23,7 +24,12 @@ self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(ASSETS.map(url => new Request(url, { cache: 'reload' }))))
   );
-  self.skipWaiting();
+  // No skipWaiting(): on an update the new worker waits until the page asks for it
+  // (the "new version ready" banner). On a first install this has no effect.
+});
+
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
