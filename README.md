@@ -14,7 +14,9 @@ A small offline-capable web app (PWA) that converts between **Capacity Units (CU
 - Full reference table for the selected protection level, with an indicative quality band and typical use.
 - English, Italiano, Español. The app always opens in English; a manual change is remembered on the device.
 - Works offline after the first visit and shows an "update available" banner when a new version is ready. Installable as an app: "Install app" button (Chrome, Edge, Android); on iPhone/iPad use Share → Add to Home Screen; on Safari for Mac use File → Add to Dock. The steps are in the in-app help.
-- No dependencies, no tracking, no external requests. Dark theme.
+- A small tip card at the bottom of the page (the jar of the site, one line, a link to the tip page of onairgarage.com in your language, opens in a new tab). No pop-ups, nothing in the calculator.
+- On touch screens every button, selector and link is at least 44 px; with a mouse the layout is unchanged.
+- No dependencies, no tracking, no external requests (the tip link is only opened when you click it). Dark theme.
 
 ## Formulas and sources
 
@@ -32,7 +34,7 @@ Sub-channel sizes come from **ETSI EN 300 401 V2.1.1 (2017-01)**, clause 6.2.1 (
 
 ## Validation and references
 
-Results as of September 2026 (`node --test dev/*.test.js`, 6 tests):
+Results as of October 2026 (`node --test dev/*.test.js`, 13 tests):
 
 | Reference | What it validates | Result |
 |---|---|---|
@@ -41,7 +43,9 @@ Results as of September 2026 (`node --test dev/*.test.js`, 6 tests):
 | CIF size (clause 5.3.0) | 864 CU × 64 bits = 55 296 bits; every listed size fits | pass |
 | Well-known DAB+ values | 96 kbit/s at 3-A = 72 CU, 128 kbit/s at 3-A = 96 CU, 64 kbit/s at 3-A = 48 CU | pass |
 
-**Not validated**: a real multiplexer configuration. This is not a certified tool.
+The same tests also check the tip card (texts in the three languages, one support page per language, markup, offline precache), that the touch rules exist and that `VERSION`, the service worker cache and the footer carry the same version.
+
+**Not validated**: a real multiplexer configuration. This is not a certified tool. The 44 px targets and the tip card were checked in Chromium with touch emulation (375 px), not on a real phone, nor in Safari on iPhone.
 
 ## Sources to re-check
 
@@ -57,7 +61,7 @@ Last read on 2026-09-29:
 The app is plain static files and runs from any folder (all paths are relative):
 
 ```
-index.html  app.css  app.js  eep.js  sw.js  manifest.json  icons/  screenshots/
+index.html  app.css  app.js  eep.js  tip.js  sw.js  manifest.json  icons/  screenshots/
 ```
 
 Copy them to any static host. No inline scripts or styles are used and the page carries a strict Content-Security-Policy (`script-src 'self'; style-src 'self'`). Do not upload the `dev/` folder.
@@ -72,7 +76,9 @@ Then open http://localhost:7800/apps/dab-calculator/. The dev server mimics prod
 
 Tests (Node 18+): `node --test dev/*.test.js`
 
-When you change a cached file, bump `CACHE` in `sw.js` and `VERSION` in `app.js` (and the footer) so installed copies update. Versions are `year.month.number` (e.g. `2026.9.1`), tags `v2026.9.1`; the earlier tags `v1.1.0` and `v1.2.0` are kept. Serve `sw.js` with `Cache-Control: no-cache` (or a short max-age) so browsers pick up new versions quickly.
+When you change a cached file, bump `CACHE` in `sw.js` and `VERSION` in `app.js` (and the footer) so installed copies update. Versions are `year.month.number` (e.g. `2026.10.1`), tags `v2026.10.1`; the earlier tags `v1.1.0` and `v1.2.0` are kept.
+
+A release is made from the Actions tab: **Release** → *Run workflow* on `main` with the version in `app.js`. The workflow checks that the version matches the code, that the tag is new and higher than every earlier one, runs the tests and creates the tag and the GitHub release. Serve `sw.js` with `Cache-Control: no-cache` (or a short max-age) so browsers pick up new versions quickly.
 
 ## Credits
 
