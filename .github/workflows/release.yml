@@ -1,0 +1,61 @@
+name: Release
+
+# Start from the Actions tab (or from a chat) with the version to publish. GitHub creates the tag on the tip of main.
+# The site copies the app at that tag (scripts/sync-app.sh in the onairgarage repository).
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: "Version to publish: the one in app.js (VERSION), for example 2026.10.1"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Version matches the code, the tag is new and the version is higher than every earlier tag
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.release_version }}
+        run: |
+          VERSION_IN_INPUT="${RELEASE_VERSION#v}"
+          if [ "$GITHUB_REF_NAME" != "main" ]; then
+            echo "::error::A release must run on main (this run is on $GITHUB_REF_NAME)"; exit 1
+          fi
+          CODE_VERSION=$(sed -n "s/^const VERSION = '\([^']*\)';.*/\1/p" app.js)
+          if [ "$CODE_VERSION" != "$VERSION_IN_INPUT" ]; then
+            echo "::error::Version $VERSION_IN_INPUT does not match VERSION in app.js ($CODE_VERSION)"; exit 1
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION_IN_INPUT" >/dev/null 2>&1; then
+            echo "::error::Tag v$VERSION_IN_INPUT already exists: use a higher version"; exit 1
+          fi
+          LATEST=$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/v##' | sort -V | tail -1)
+          echo "version: $VERSION_IN_INPUT  latest tag: ${LATEST:-none}"
+          if [ -n "$LATEST" ]; then
+            HIGHEST=$(printf '%s\n%s\n' "$LATEST" "$VERSION_IN_INPUT" | sort -V | tail -1)
+            if [ "$HIGHEST" != "$VERSION_IN_INPUT" ]; then
+              echo "::error::Version $VERSION_IN_INPUT must be higher than the latest tag $LATEST"; exit 1
+            fi
+          fi
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Tests
+        run: node --test dev/*.test.js
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ github.event.inputs.release_version }}
+          target_commitish: ${{ github.sha }}
+          name: DAB+ Calculator ${{ github.event.inputs.release_version }}
+          body: |
+            DAB+ CU ↔ Bitrate Calculator ${{ github.event.inputs.release_version }}.
+            Tool page: https://onairgarage.com/tools/dab-calculator/
+          generate_release_notes: true

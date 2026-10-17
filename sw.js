@@ -3,12 +3,13 @@
 // (e.g. https://onairgarage.com/apps/dab-calculator/).
 // Bump CACHE whenever a file in ASSETS changes, so installed copies update.
 const PREFIX = 'com.onairgarage.dabcalculator-';
-const CACHE = PREFIX + 'v2026.9.1';
+const CACHE = PREFIX + 'v2026.10.1';
 const ASSETS = [
   './',
   'index.html',
   'app.css',
   'eep.js',
+  'tip.js',
   'app.js',
   'manifest.json',
   'icons/icon.svg',
@@ -16,7 +17,8 @@ const ASSETS = [
   'icons/icon-512.png',
   'icons/icon-maskable-512.png',
   'icons/apple-touch-icon.png',
-  'icons/chevron.svg'
+  'icons/chevron.svg',
+  'icons/tip-jar-sm.webp'
 ];
 
 self.addEventListener('install', e => {

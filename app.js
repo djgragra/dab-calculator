@@ -203,7 +203,7 @@ function loadLang(){
   return 'en';
 }
 
-const VERSION = '2026.9.1';
+const VERSION = '2026.10.1';
 let lang = loadLang();
 let mode = 'A', dir = 'cu';
 
@@ -221,6 +221,11 @@ function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
   $('lang-switch').setAttribute('aria-label', t('langLabel'));
+  const tip = TIP.text[lang];
+  $('tip-line').textContent = tip.line;
+  $('tip-btn').textContent = tip.btn;
+  $('tip-btn').href = TIP.url[lang];
+  $('tip-jar-link').href = TIP.url[lang];
   ['en', 'it', 'es'].forEach(l => {
     $('btn-' + l).classList.toggle('on', lang === l);
     $('btn-' + l).setAttribute('aria-pressed', String(lang === l));
