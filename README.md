@@ -5,6 +5,7 @@ A small offline-capable web app (PWA) that converts between **Capacity Units (CU
 - Tool page: https://onairgarage.com/tools/dab-calculator/
 - Author: Graziano Melzi · OnAir Garage — hello@onairgarage.com
 - License: MIT (see `LICENSE`)
+- Manual: attached to every release as three PDFs, English (`DAB-Calculator-Manual-EN-<version>.pdf`), Italian (`-IT-`) and Spanish (`-ES-`); the source is in `dev/manual/` (`python3 dev/manual/build.py <version> <folder>` makes the PDFs; it needs Chrome or Chromium).
 
 ## What it does
 

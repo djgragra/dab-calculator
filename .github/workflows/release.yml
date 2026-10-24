@@ -49,6 +49,14 @@ jobs:
       - name: Tests
         run: node --test dev/*.test.js
 
+      - name: Build the three manuals (PDF)
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.release_version }}
+        run: |
+          mkdir -p manuals
+          python3 dev/manual/build.py "${RELEASE_VERSION#v}" manuals
+          ls -l manuals
+
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v3
         with:
@@ -59,3 +67,4 @@ jobs:
             DAB+ CU ↔ Bitrate Calculator ${{ github.event.inputs.release_version }}.
             Tool page: https://onairgarage.com/tools/dab-calculator/
           generate_release_notes: true
+          files: manuals/*.pdf
