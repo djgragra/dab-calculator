@@ -57,6 +57,8 @@ Last read on 2026-09-29:
 | [ETSI EN 300 401](https://www.etsi.org/deliver/etsi_en/300400_300499/300401/02.01.01_60/en_300401v020101p.pdf) | V2.1.1 (2017-01), the current published version |
 | [Draft ETSI EN 300 401](https://www.etsi.org/deliver/etsi_en/300400_300499/300401/02.02.01_20/en_300401v020201a.pdf) | V2.2.1 (2026-02), draft: tables 9 and 10 unchanged |
 
+<a href="https://ko-fi.com/F8V328ADFH"><img height="36" src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" alt="Buy Me a Coffee at ko-fi.com"></a>
+
 ## Self-hosting
 
 The app is plain static files and runs from any folder (all paths are relative):
@@ -84,3 +86,9 @@ A release is made from the Actions tab: **Release** → *Run workflow* on `main`
 ## Credits
 
 Author and license: © 2026 Graziano Melzi · OnAir Garage — https://onairgarage.com — released under the [MIT License](LICENSE).
+
+## Support
+
+This tool is free and will stay free, with source code. If it saved your day, you can leave a tip on Ko-fi: a thank-you, nothing more.
+
+<a href="https://ko-fi.com/F8V328ADFH"><img height="36" src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" alt="Buy Me a Coffee at ko-fi.com"></a>
